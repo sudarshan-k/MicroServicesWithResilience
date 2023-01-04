@@ -1,0 +1,28 @@
+#Eclipse and Idea project files and meta-data
+
+*.settings
+*.project
+*.classpath
+*.iml
+*.idea
+*.springBeans
+
+#Maven target directories
+target
+*/target/*
+
+###
+###Common Java exclusions
+###
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+mvnw.cmd
+HELP.md
+mvnw.cmd
+.mvn
+mvnw

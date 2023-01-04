@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: CONFIG-SERVER
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/sudarshan-k/cloud-config-server
+
+server:
+  port: 9196
