@@ -1,0 +1,48 @@
+    public static WebClient createWebClient(HttpStatus httpStatus, String desiredResponseName) throws IOException {
+        final String content = Files.readString(Paths.get("src/test/resources/responses", desiredResponseName + ".json"));
+        return WebClient.builder()
+                .exchangeFunction(request -> Mono.just(ClientResponse.create(httpStatus)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .body(content)
+                        .build()))
+                .build();
+    }
+    
+    
+    @Test
+    void methodName() throws Exception {
+        final ClassName className = new ClassName((createWebClient(HttpStatus.OK, "login_details")));
+        assertTrue(className.methodName("Sudarshan"));
+    }
+    
+    @Test
+    void methodName_Exception() {
+
+        final ClassName className =  new ClassName(WebClient.create());
+        final ExceptionName ex = assertThrows(ExceptionName.class,
+                () -> className.methodName(0));
+    }
+    
+    @Test
+    void methodName_Unauthorized() throws IOException {
+
+        final ClassName className =
+                new ClassName(createWebClient(HttpStatus.UNAUTHORIZED, "401_response"));
+        final ExceptionName ex = assertThrows(ExceptionName.class,
+                () -> className.methodName("Sudarshan"));
+        assertEquals(401, ex.getHttpStatus());
+    }
+    
+    // WebClient Code
+    Response response = webClient
+                .get()
+                .uri(uri)
+                .header(TOKEN_HEADER_KEY, "tokenwewedddf435t")
+                .accept((MediaType.APPLICATION_JSON))
+                .retrieve()
+                .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(String.class).flatMap(message->Mono.error(new Exception(clientResponse.rawStatusCode(),message))))
+                .bodyToMono(Response.class)//.toEntity(String.class)
+                .doOnError(throwable -> log.error("Error occurred in doesLoginNameExists method", throwable))
+                .log()
+                .block();
+    
